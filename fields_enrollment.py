@@ -47,10 +47,8 @@ with col0:
     st_data=st_folium(m,width=1000,height=500)
     
 with col1:
-    df_cols=['client','farm','field','type','prev_crop','targ_crop',
-             'log_datetime','notes','uuid','x','y']
     if 'df' not in st.session_state:
-        st.session_state.df=pd.DataFrame(columns=df_cols)
+        st.session_state.df=pd.DataFrame(columns=[])
     client=st.text_input('Client')
     farm=st.text_input('Farm')
     field=st.text_input('Field')
@@ -75,7 +73,8 @@ with col1:
                              'y':y,
                              'notes':notes}
         if st.button('SUBMIT'):
-            st.session_state.df=st.session_state.df.append(data_dict,ignore_index=True)
+            st.session_state.df=pd.concat([st.session_state.df,
+                                           pd.DataFrame([data_dict])],ignore_index=True)
             doc_ref=db.collection(f'targ_fields_{env}').document(f'{uid}')
             doc_ref.set(data_dict)
             st.success(f'You have successfully submitted {client} {farm} {field}.')
