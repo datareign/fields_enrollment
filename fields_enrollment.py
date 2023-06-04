@@ -16,8 +16,8 @@ from streamlit_folium import st_folium
 st.set_page_config(layout="wide")
 
 
-#env='prod'
-env='dev'
+env='prod'
+#env='dev'
 
 key_dict=json.loads(st.secrets['textkey'])
 creds=service_account.Credentials.from_service_account_info(key_dict)
@@ -83,3 +83,4 @@ with col0:
     df_cols_display=['client','farm','field','type','prev_crop','targ_crop']
     if len(st.session_state.df)>0:
         st.dataframe(st.session_state.df[df_cols_display])
+        
